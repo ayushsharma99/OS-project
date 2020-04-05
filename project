@@ -30,3 +30,31 @@ void sort(Process p[], int n) {
 			break;
 	}
 }
+void enqueue(Process p[], int n) {
+	int i, j, can_insert;
+	for (i = 0; i < n; ++i)
+	{
+		can_insert = 1;
+		
+		if (p[i].arr_time <= curr_time && p[i].burst_time > 0)
+		{
+			if (front == 0) {
+				queue[++rear] = &p[i];
+			}
+			else
+			{
+				for (j = last_front; j <= last_rear; ++j) {
+					if (queue[j]->p_no == p[i].p_no)
+						can_insert = 0;
+				}
+				if (can_insert == 1)
+					queue[++rear] = &p[i];
+			}
+		}
+	}
+	for (i = last_front; i <= last_rear; ++i)
+	{
+		if (queue[i]->burst_time > 0)
+			queue[++rear] = queue[i];
+	}
+}
