@@ -86,3 +86,38 @@ void execute() {
 		}
 	}
 }
+int main() {
+	int n, i;
+	short err_flag = 0;	
+	do {
+		if (err_flag == 1)
+			fprintf(stderr, "\nNumber of processes should be greater than 1.\n");
+		printf("Enter the number of processes: ");
+		scanf("%d", &n);
+		err_flag = 1;
+	} while (n < 1);
+	err_flag = 0;
+	Process p[n];
+	for (i = 0; i < n; ++i) {
+		printf("\n");
+		printf("Enter arrival time of process %d: ", i+1);
+		scanf("%d", &p[i].arr_time);
+		printf("Enter burst time of process %d: ", i+1);
+		scanf("%d", &p[i].burst_time);
+		p[i].p_no = i+1;
+	}
+	sort(&p[0], n); // Sort the processes according to the arrival time of each process.	
+	while (1) {
+		enqueue(p, n);
+		printf("\nIn queue: ");
+		for (i = 0; i <= rear; ++i) {
+			printf("%d ", queue[i]->p_no);
+		}
+		printf("\nFront = %d, Rear = %d.\n\n", front, rear);
+		execute();
+		// If all the processes have been processed, break from the loop.
+		if (processed == n)
+			break;
+	}
+	return 0;
+}
